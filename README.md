@@ -23,3 +23,7 @@ You need to input two integers MEM and K, which means "memory = MEM KB" and "top
 # Output format
 
 Our program will print the PRESICION, ARE and AAE of these sketches on the screen.
+
+## About the New project
+
+Read the README_NEW.md
