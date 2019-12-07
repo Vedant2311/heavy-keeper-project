@@ -17,9 +17,9 @@ using namespace std;
 class spacesaving
 {
     private:
-        ssummary *ss;
         int K,M2;
     public:
+        ssummary *ss;
         spacesaving(int M2,int K):M2(M2),K(K) {ss=new ssummary(M2); ss->clear();}
         void Insert(string x)
         {
