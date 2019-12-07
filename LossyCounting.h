@@ -18,9 +18,11 @@ class LossyCounting
 {
     private:
         ssummary *ss;
-        int K;
+        int m;
+        float epsilon, phi;
+
     public:
-        LossyCounting(int K):K(K) {ss=new ssummary(0); ss->clear();}
+        LossyCounting(float epsilon, float phi, int m):epsilon(epsilon), phi(phi), m(m)  {ss=new ssummary(0); ss->clear();}
         void Insert(string x,int c)
         {
             bool mon=false;
