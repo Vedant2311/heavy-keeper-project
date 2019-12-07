@@ -17,10 +17,11 @@ using namespace std;
 class spacesaving
 {
     private:
-        int K,M2;
+        float epsilon, phi;
+        int M2,m;
     public:
-        ssummary *ss;
-        spacesaving(int M2,int K):M2(M2),K(K) {ss=new ssummary(M2); ss->clear();}
+           ssummary *ss;
+        spacesaving(int M2,float epsilon, float phi, int m):M2(M2),epsilon(epsilon), phi(phi), m(m) {ss=new ssummary(M2); ss->clear();}
         void Insert(string x)
         {
             bool mon=false;
@@ -61,6 +62,8 @@ class spacesaving
                 for(int j=ss->head[i];j;j=ss->Next[j]) {q[CNT].x=ss->str[j]; q[CNT].y=ss->sum[j]; CNT++; }
             sort(q,q+CNT,cmp);
         }
+
+
         pair<string ,int> Query(int k)
         {
             return make_pair(q[k].x,q[k].y);
