@@ -7,23 +7,45 @@
 #include <cstring>
 #include <map>
 #include <fstream>
-#include "BOBHASH32.h"
+#include "BOBHASH64.h"
 #include "params.h"
 #include "ssummary.h"
 #include "heavykeeper.h"
 #include "spacesaving.h"
 #include "LossyCounting.h"
+#include "doubleSS.h"
 #include "CSS.h"
 using namespace std;
 map <string ,int> B,C;
 struct node {string x;int y;} p[10000005];
-ifstream fin("u1",ios::in|ios::binary);
+ifstream fin("temp1.csv",ios::in|ios::binary);
 char a[105];
 string Read()
 {
-    fin.read(a,13);
-    a[13]='\0';
-    string tmp=a;
+	string aa;
+	std::getline (fin,aa);
+	int l,last,count;
+	l = aa.length();
+	last = 0;
+	count = 0;
+	for(int i=0; i<l; i++){
+
+		if (aa.at(i) == ','){
+			count ++;
+			if(count == 1) aa.at(i) = ' ';
+
+			if (count == 2){
+				last=i;
+				break;
+			}
+		}
+
+	}
+
+//    fin.read(a,13);
+//    a[13]='\0';
+    string tmp=aa.substr(0,last);
+ //   cout << "String is " << tmp << endl;
     return tmp;
 }
 int cmp(node i,node j) {return i.y>j.y;}
@@ -43,6 +65,12 @@ int main()
     int ss_M;
     for (ss_M=1; 432*ss_M<=MEM*1024*8; ss_M++);
     spacesaving *ss; ss=new spacesaving(ss_M,K);
+/*
+	// preparing double spacesaving
+	int d_ss_M;
+    for (d_ss_M=1; 432*d_ss_M<=MEM*1024*8; d_ss_M++);
+    doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,K);
+*/
 
     // preparing LossyCounting
     int LC_M;
@@ -53,14 +81,18 @@ int main()
     int css_M;
     for (css_M=1; 179*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
     CSS *css; css=new CSS(css_M,K); css->clear();
+
+
     // Inserting
     for (int i=1; i<=m; i++)
 	{
-	    if (i%(m/10)==0) cout<<"Insert "<<i<<endl;
 		string s=Read();
+	    if (i%(m/10)==0) {cout<<"Insert "<<i<<endl; cout << s << endl;}
+
 		B[s]++;
 		hk->Insert(s);
 		ss->Insert(s);
+		//d_ss -> Insert(s);
 		LC->Insert(s,i/LC_M); if (i%LC_M==0) LC->clear(i/LC_M);
 		css->Insert(s);
 	}
