@@ -20,12 +20,12 @@ class doubleSS
 		spacesaving *T1;
 		spacesaving *T2;
 		BOBHash64 *bobhash;
-		int t;
+		int M2,m;
 		double phi, epsilon, delta;
 
 	public:
 
-		doubleSS(int t, double phi, double epsilon, double delta): t(t), phi(phi), epsilon(epsilon), delta(delta) {T1= new spacesaving((int)floor(2.0/phi),M); T2= new spacesaving(t,M); bobhash=new BOBHash64(1005);}
+		doubleSS(int M2, double epsilon, double phi, double delta, int m): M2(M2), phi(phi), epsilon(epsilon), delta(delta), m(m) {T1= new spacesaving((int)floor(2.0/phi),epsilon,phi,m); T2= new spacesaving(M2,epsilon,phi,m); bobhash=new BOBHash64(1003);}
 
 		unsigned long long Hash(string ST)
         {
@@ -42,7 +42,7 @@ class doubleSS
 		struct Node {string x; int y;} q[MAX_MEM+10];
         static int cmp(Node i,Node j) {return i.y>j.y;}
         
-		void Report()
+		void work()
 		{
 
 			int CNT=0;
