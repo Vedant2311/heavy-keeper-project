@@ -18,7 +18,7 @@
 using namespace std;
 map <string ,int> B,C;
 struct node {string x;int y;} p[10000005];
-ifstream fin("temp1.csv",ios::in|ios::binary);
+ifstream fin("Data/data10.csv",ios::in|ios::binary);
 char a[105];
 string Read()
 {
@@ -51,36 +51,42 @@ string Read()
 int cmp(node i,node j) {return i.y>j.y;}
 int main()
 {
+	cout << "Enter the Memory Size and the top K" << endl;
     int MEM,K;
-    cin>>MEM>>K;
-    cout<<"MEM="<<MEM<<"KB"<<endl<<"Find top"<<K<<endl<<endl;
+    cin>>MEM >> K;
+
+    cout << "Enter Epsilon, Phi, Delta" << endl;
+    float epsilon, phi, delta;
+    cin >> epsilon >> phi >> delta;
+
+
     cout<<"preparing all algorithms"<<endl;
-    int m=100000;  // the number of flows
+    int m=10000;  // the number of flows
     // preparing heavykeeper
     int hk_M;
     for (hk_M=1; 32*hk_M*HK_d+432*K<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
-    heavykeeper *hk; hk=new heavykeeper(hk_M,K); hk->clear();
+    heavykeeper *hk; hk=new heavykeeper(hk_M,epsilon,phi,m,K); hk->clear();
 
     // preparing spacesaving
     int ss_M;
     for (ss_M=1; 432*ss_M<=MEM*1024*8; ss_M++);
-    spacesaving *ss; ss=new spacesaving(ss_M,K);
-/*
-	// preparing double spacesaving
-	int d_ss_M;
-    for (d_ss_M=1; 432*d_ss_M<=MEM*1024*8; d_ss_M++);
-    doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,K);
-*/
+    spacesaving *ss; ss=new spacesaving(ss_M,epsilon,phi,m);
+
 
     // preparing LossyCounting
     int LC_M;
     for (LC_M=1; 227*LC_M<=MEM*1024*8; LC_M++);
-    LossyCounting *LC; LC=new LossyCounting(K);
+    LossyCounting *LC; LC=new LossyCounting(epsilon,phi,m);
 
     // preparing CSS
     int css_M;
     for (css_M=1; 179*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
     CSS *css; css=new CSS(css_M,K); css->clear();
+
+	// preparing double spacesaving
+	int d_ss_M;
+    for (d_ss_M=1; 42*d_ss_M<=MEM*1024*8; d_ss_M++);
+    doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,epsilon,phi,delta, m);
 
 
     // Inserting
@@ -92,14 +98,18 @@ int main()
 		B[s]++;
 		hk->Insert(s);
 		ss->Insert(s);
-		//d_ss -> Insert(s);
 		LC->Insert(s,i/LC_M); if (i%LC_M==0) LC->clear(i/LC_M);
 		css->Insert(s);
+		d_ss -> Insert(s);
+
 	}
+
 	hk->work();
 	ss->work();
 	LC->work();
 	css->work();
+	d_ss -> work();
+
 
     cout<<"preparing true flow"<<endl;
 	// preparing true flow
@@ -141,6 +151,7 @@ int main()
         if (C[ss_string]) ss_sum++;
     }
 
+
     int css_sum=0,css_AAE=0; double css_ARE=0;
     string css_string; int css_num;
     for (int i=0; i<K; i++)
@@ -149,9 +160,21 @@ int main()
         css_AAE+=abs(B[css_string]-css_num); css_ARE+=abs(B[css_string]-css_num)/(B[css_string]+0.0);
         if (C[css_string]) css_sum++;
     }
+
+    int d_ss_sum=0,d_ss_AAE=0; double d_ss_ARE=0;
+    string d_ss_string; int d_ss_num;
+    for (int i=0; i<K; i++)
+    {
+        d_ss_string=(d_ss->Query(i)).first; d_ss_num=(d_ss->Query(i)).second;
+        d_ss_AAE+=abs(B[d_ss_string]-d_ss_num); d_ss_ARE+=abs(B[d_ss_string]-d_ss_num)/(B[d_ss_string]+0.0);
+        if (C[d_ss_string]) d_ss_sum++;
+    }
+
+
     printf("heavkeeper:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",hk_sum,K,(hk_sum/(K+0.0)),hk_ARE/K,hk_AAE/(K+0.0));
     printf("LossyCounting:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",LC_sum,K,(LC_sum/(K+0.0)),LC_ARE/K,LC_AAE/(K+0.0));
     printf("spacesaving:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",ss_sum,K,(ss_sum/(K+0.0)),ss_ARE/K,ss_AAE/(K+0.0));
     printf("CSS:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",css_sum,K,(css_sum/(K+0.0)),css_ARE/K,css_AAE/(K+0.0));
+    printf("doubleSS:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",d_ss_sum,K,(d_ss_sum/(K+0.0)),d_ss_ARE/(K + 0.0),d_ss_AAE/(K+0.0));    
     return 0;
 }
