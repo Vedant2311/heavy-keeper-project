@@ -12,4 +12,4 @@ There was a development of the algorithms **Stetch-Frequent** and **Double-Frequ
 
 These algorithms were developed from the **Frequent** algorithm and a very detailed theoretical analysis was carried out for them. Similar to these, an other improvement has been made for the **Space saving** algorithm, named the **Double Space Saving** algorithm (It's construction is similar to the Double Frequent from the Frequent) 
 
-The current scope of this work is to see if these newly developed algorithms exhibit a very improved precision and memory size as compared to the other algorithms (Especially the HeavyKeeper algorithm) for the real-world datasets
+The current scope of this work is to see if these newly developed algorithms exhibit a very improved precision and memory size as compared to the other algorithms (Especially the HeavyKeeper algorithm) for the real-world datasets. We use the CAIDA-2016 dataset https://data.caida.org/datasets/passive-2016/equinix-chicago/20160121-130000.UTC/?C=S;O=A
