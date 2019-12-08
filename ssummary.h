@@ -16,8 +16,8 @@ using namespace std;
 class ssummary
 {
     public:
-        int tot;
-        int sum[M+10],K,last[M+10],Next[M+10],ID[M+10];
+        int tot,K;
+        int sum[M+10],last[M+10],Next[M+10],ID[M+10];
         int head[N+10],Left[N+10],Right[N+10],num;
         string str[M+10];
         int head2[len2+10],Next2[M+10];
