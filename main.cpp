@@ -55,13 +55,20 @@ int main()
     int MEM,K;
     cin>>MEM >> K;
 
-    cout << "Enter Epsilon, Phi, Delta" << endl;
+//    cout << "Enter Epsilon, Phi, Delta" << endl;
     float epsilon, phi, delta;
-    cin >> epsilon >> phi >> delta;
+//    cin >> epsilon >> phi >> delta;
+    delta = 0.2;
 
+    int temp;
+    for (temp=1; 432*temp<=MEM*1024*8; temp++);
+    epsilon = 1.0/temp;
+    phi = 2.1 * epsilon;	
 
+    int m=1000;  // the number of flows
+
+    cout << "floor " << (floor(phi*m/2.0)) << endl;
     cout<<"preparing all algorithms"<<endl;
-    int m=10000;  // the number of flows
     // preparing heavykeeper
     int hk_M;
     for (hk_M=1; 32*hk_M*HK_d+432*K<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
@@ -85,7 +92,7 @@ int main()
 
 	// preparing double spacesaving
 	int d_ss_M;
-    for (d_ss_M=1; 42*d_ss_M<=MEM*1024*8; d_ss_M++);
+    for (d_ss_M=1; 432*d_ss_M<=MEM*1024*8; d_ss_M++);
     doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,epsilon,phi,delta, m);
 
 
@@ -93,7 +100,7 @@ int main()
     for (int i=1; i<=m; i++)
 	{
 		string s=Read();
-	    if (i%(m/10)==0) {cout<<"Insert "<<i<<endl; cout << s << endl;}
+//	    if (i%(m/10)==0) {cout<<"Insert "<<i<<endl; cout << s << endl;}
 
 		B[s]++;
 		hk->Insert(s);
@@ -129,6 +136,7 @@ int main()
     for (int i=0; i<K; i++)
     {
         hk_string=(hk->Query(i)).first; hk_num=(hk->Query(i)).second;
+		cout << "HK string " << hk_string <<  " " << hk_num <<  endl;        
         hk_AAE+=abs(B[hk_string]-hk_num); hk_ARE+=abs(B[hk_string]-hk_num)/(B[hk_string]+0.0);
         if (C[hk_string]) hk_sum++;
     }
@@ -147,6 +155,8 @@ int main()
     for (int i=0; i<K; i++)
     {
         ss_string=(ss->Query(i)).first; ss_num=(ss->Query(i)).second;
+		cout << "SS string " << ss_string << " " << ss_num << endl;        
+
         ss_AAE+=abs(B[ss_string]-ss_num); ss_ARE+=abs(B[ss_string]-ss_num)/(B[ss_string]+0.0);
         if (C[ss_string]) ss_sum++;
     }
@@ -166,6 +176,7 @@ int main()
     for (int i=0; i<K; i++)
     {
         d_ss_string=(d_ss->Query(i)).first; d_ss_num=(d_ss->Query(i)).second;
+		cout << "Double SS string " << d_ss_string << " " << d_ss_num << endl;        
         d_ss_AAE+=abs(B[d_ss_string]-d_ss_num); d_ss_ARE+=abs(B[d_ss_string]-d_ss_num)/(B[d_ss_string]+0.0);
         if (C[d_ss_string]) d_ss_sum++;
     }
