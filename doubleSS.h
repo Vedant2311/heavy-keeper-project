@@ -81,18 +81,18 @@ class doubleSS
                 			for(int j1 = T2 -> ss -> head[i1]; j1; j1 = T2 -> ss -> Next[j1]){
                 				if (T2 -> ss -> str[j1] == to_string(Hash(T1->ss->str[j]))){
                 					flag=1;
-		                			q[CNT].x=T1->ss->str[j]; q[CNT].y=T2->ss->sum[j1]; CNT++;
+
+			                		if(T2->ss->sum[j1] >= (floor((phi - epsilon)*m))){
+			                			q[CNT].x=T1->ss->str[j]; q[CNT].y=T2->ss->sum[j1]; CNT++;
+			                		}
 		                			break;
+
+
                 				}
                 			}
 
                 		}
 
-                	/*	
-                		if(T2->ss->sum[j] >= (floor((phi - epsilon)*m))){
-                			q[CNT].x=T1->ss->str[j]; q[CNT].y=T2->ss->sum[j]; CNT++;
-                		}
-			*/
                 	}
                 }
             }
