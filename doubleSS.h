@@ -92,15 +92,15 @@ class doubleSS
                 		if(T2->ss->sum[j] >= (floor((phi - epsilon)*m))){
                 			q[CNT].x=T1->ss->str[j]; q[CNT].y=T2->ss->sum[j]; CNT++;
                 		}
-					*/
+			*/
                 	}
                 }
             }
             sort(q,q+CNT,cmp);
 
-		}
+	}
 
-		pair<string ,int> Query(int k)
+	pair<string ,int> Query(int k)
         {
             return make_pair(q[k].x,q[k].y);
         }
