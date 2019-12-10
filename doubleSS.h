@@ -58,13 +58,41 @@ class doubleSS
             for(int i=N;i;i=T1->ss->Left[i]){
                 for(int j=T1->ss->head[i];j;j=T1->ss->Next[j]) {
 
+
                 	if((T1->ss->sum[j] >= (floor(phi*m/2.0)))){
-				//		cout << "Combo " << j << " " << T2->ss->sum[j] << endl;              
+//                		cout << "Pass" << endl;
+			//			cout << "Combo " << j << " " << T2->ss->sum[j] << endl;              
 				//		cout << "Comparision value " << (floor((phi - epsilon)*m)) << endl;
+
+                		if (T1->ss->str[j] == "221.112.135.201 100.70.27.133")
+                		{
+	                		// cout << "The string is " << "221.112.135.201 100.70.27.133 " << "; " << T1->ss->sum[j] << endl;
+	                		// cout << "The Hashed string is " << to_string(Hash("221.112.135.201 100.70.27.133")) << endl;
+	                		// cout << "T2 string is " << T2->ss->str[j] << endl;
+	                		// cout << "T2 string value is" << T2 -> ss->sum[j] << endl;
+
+                		}
+
+                		int flag = 0;
+                		for(int i1=N; i1; i1 = T2 -> ss -> Left[i1]){
+
+                			if(flag==1) break;
+
+                			for(int j1 = T2 -> ss -> head[i1]; j1; j1 = T2 -> ss -> Next[j1]){
+                				if (T2 -> ss -> str[j1] == to_string(Hash(T1->ss->str[j]))){
+                					flag=1;
+		                			q[CNT].x=T1->ss->str[j]; q[CNT].y=T2->ss->sum[j1]; CNT++;
+		                			break;
+                				}
+                			}
+
+                		}
+
+                	/*	
                 		if(T2->ss->sum[j] >= (floor((phi - epsilon)*m))){
                 			q[CNT].x=T1->ss->str[j]; q[CNT].y=T2->ss->sum[j]; CNT++;
                 		}
-
+					*/
                 	}
                 }
             }
