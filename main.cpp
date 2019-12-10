@@ -62,16 +62,21 @@ int main()
 
     int temp;
     for (temp=1; 432*temp<=MEM*1024*8; temp++);
-    epsilon = 1.0/temp;
-    phi = 2.1 * epsilon;	
+//    epsilon = 1.0/( 2 * 64);
+//    phi = 3 * 2.1 * epsilon;	
+
+    	epsilon = 1.0/temp;
+    	phi = 2.1 * epsilon;
 
     int m=1000;  // the number of flows
 
-    cout << "floor " << (floor(phi*m/2.0)) << endl;
+    cout << "floor 1 " << (floor(phi*m)) << endl;
+    cout << "floor 2 " << (floor((phi-epsilon)*m)) << endl;
+
     cout<<"preparing all algorithms"<<endl;
     // preparing heavykeeper
     int hk_M;
-    for (hk_M=1; 32*hk_M*HK_d+432*K<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
+    for (hk_M=1; 432*hk_M*HK_d+432*K<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
     heavykeeper *hk; hk=new heavykeeper(hk_M,epsilon,phi,m,K); hk->clear();
 
     // preparing spacesaving
@@ -127,7 +132,10 @@ int main()
         p[cnt].y=sit->second;
     }
     sort(p+1,p+cnt+1,cmp);
-    for (int i=1; i<=K; i++) C[p[i].x]=p[i].y;
+    for (int i=1; i<=K; i++) {
+        C[p[i].x]=p[i].y;
+        cout << "True String " << p[i].x << " " << p[i].y <<  endl;
+    }
 
     // Calculating PRE, ARE, AAE
     cout<<"Calculating"<<endl;
@@ -136,7 +144,7 @@ int main()
     for (int i=0; i<K; i++)
     {
         hk_string=(hk->Query(i)).first; hk_num=(hk->Query(i)).second;
-		cout << "HK string " << hk_string <<  " " << hk_num <<  endl;        
+//		cout << "HK string " << hk_string <<  " " << hk_num <<  endl;        
         hk_AAE+=abs(B[hk_string]-hk_num); hk_ARE+=abs(B[hk_string]-hk_num)/(B[hk_string]+0.0);
         if (C[hk_string]) hk_sum++;
     }
@@ -155,7 +163,7 @@ int main()
     for (int i=0; i<K; i++)
     {
         ss_string=(ss->Query(i)).first; ss_num=(ss->Query(i)).second;
-		cout << "SS string " << ss_string << " " << ss_num << endl;        
+//		cout << "SS string " << ss_string << " " << ss_num << endl;        
 
         ss_AAE+=abs(B[ss_string]-ss_num); ss_ARE+=abs(B[ss_string]-ss_num)/(B[ss_string]+0.0);
         if (C[ss_string]) ss_sum++;
