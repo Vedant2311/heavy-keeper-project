@@ -97,7 +97,7 @@ int main()
 
 	// preparing double spacesaving
 	int d_ss_M;
-    for (d_ss_M=1; 432*d_ss_M<=MEM*1024*8; d_ss_M++);
+    for (d_ss_M=1; 864*d_ss_M<=MEM*1024*8; d_ss_M++);
     doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,epsilon,phi,delta, m);
 
 
