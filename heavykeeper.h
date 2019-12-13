@@ -22,11 +22,10 @@ class heavykeeper
         ssummary *ss;
         struct node {int C,FP;} HK[HK_d][MAX_MEM+10];
         BOBHash64 * bobhash;
-        int M2,m,K;
-        float epsilon,phi;
+        int M2,K;
 
     public:
-        heavykeeper(int M2,float epsilon, float phi, int m, int K):K(K),M2(M2),epsilon(epsilon), phi(phi), m(m)  {ss=new ssummary(K); ss->clear(); bobhash=new BOBHash64(1005);}
+        heavykeeper(int M2):K(M2),M2(M2) {ss=new ssummary(K); ss->clear(); bobhash=new BOBHash64(1005);}
         void clear()
         {
             for (int i=0; i<HK_d; i++)
@@ -95,12 +94,14 @@ class heavykeeper
         }
         struct Node {string x; int y;} q[MAX_MEM+10];
         static int cmp(Node i,Node j) {return i.y>j.y;}
-        void work()
+        int work()
         {
             int CNT=0;
             for(int i=N;i;i=ss->Left[i])
                 for(int j=ss->head[i];j;j=ss->Next[j]) {q[CNT].x=ss->str[j]; q[CNT].y=ss->sum[j]; CNT++; }
             sort(q,q+CNT,cmp);
+            return CNT;
+
         }
         pair<string ,int> Query(int k)
         {
