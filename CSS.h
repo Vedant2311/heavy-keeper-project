@@ -16,13 +16,13 @@ using namespace std;
 class CSS
 {
     private:
-        int head[M+10],Next[M+10],M2,K;
+        int head[M+10],Next[M+10],M2;
         struct node {int wz; string ID;} ID_index[M+10];
         int R[MAX_MEM+10],Counter_Array[MAX_MEM+10],m,Last;
         int Value_Index[MAX_MEM+10];
         BOBHash32 * bobhash;
     public:
-        CSS(int M2,int K):M2(M2),K(K) {bobhash=new BOBHash32(1001);}
+        CSS(int M2):M2(M2) {bobhash=new BOBHash32(1001);}
         void clear()
         {
             Value_Index[0]=M2-1; ID_index[0].wz=-1;
@@ -105,15 +105,16 @@ class CSS
         }
         struct Node {string x; int y;} q[MAX_MEM+10];
         static int cmp(Node i,Node j) {return i.y>j.y;}
-        void work()
+        int work()
         {
            int CNT=0;
-            for (int i=M2-1; i>=M2-K; i--)
+            for (int i=M2-1; i>=0; i--)
             {
                 int now=head[R[i]];
                 while (1) {if (ID_index[now].wz==i) {q[CNT].x=ID_index[now].ID;q[CNT].y=Counter_Array[i]; CNT++; break;} now=Next[now]; }
             }
-           sort(q,q+K,cmp);
+           sort(q,q+CNT,cmp);
+           return CNT;
         }
         pair<string ,int> Query(int k)
         {
