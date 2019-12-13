@@ -18,11 +18,9 @@ class LossyCounting
 {
     private:
         ssummary *ss;
-        int m;
-        float epsilon, phi;
 
     public:
-        LossyCounting(float epsilon, float phi, int m):epsilon(epsilon), phi(phi), m(m)  {ss=new ssummary(0); ss->clear();}
+        LossyCounting() {ss=new ssummary(0); ss->clear();}
         void Insert(string x,int c)
         {
             bool mon=false;
@@ -57,12 +55,14 @@ class LossyCounting
         }
         struct Node {string x; int y;} q[MAX_MEM+10];
         static int cmp(Node i,Node j) {return i.y>j.y;}
-        void work()
+        int work()
         {
             int CNT=0;
             for(int i=N;i;i=ss->Left[i])
                 for(int j=ss->head[i];j;j=ss->Next[j]) {q[CNT].x=ss->str[j]; q[CNT].y=ss->sum[j]; CNT++; }
             sort(q,q+CNT,cmp);
+            return CNT;
+
         }
         pair<string ,int> Query(int k)
         {
