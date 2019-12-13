@@ -30,7 +30,10 @@ class doubleSS
 			cout << "The size of T1 is" << floor(2.0/phi) << endl;
 			cout << "The size of T2 is" << M2 << endl;
 
-			T1= new spacesaving((int)floor(2.0/phi),epsilon,phi,m); T2= new spacesaving(M2,epsilon,phi,m); bobhash=new BOBHash64(floor(2 * M2 * M2 / delta));}
+			T1= new spacesaving((int)floor(2.0/phi)); T2= new spacesaving(M2); bobhash=new BOBHash64(floor(log2(floor(2 * M2 * M2 / delta))/8.0));
+			cout << "The size of the Hash is " << floor(log2(floor(2 * M2 * M2 / delta))/8.0);
+
+		}
 
 		unsigned long long Hash(string ST)
         {
@@ -52,7 +55,7 @@ class doubleSS
 		struct Node {string x; int y;} q[MAX_MEM+10];
         static int cmp(Node i,Node j) {return i.y>j.y;}
         
-		void work()
+		int work()
 		{
 			int CNT=0;
             for(int i=N;i;i=T1->ss->Left[i]){
@@ -64,10 +67,10 @@ class doubleSS
 			//			cout << "Combo " << j << " " << T2->ss->sum[j] << endl;              
 				//		cout << "Comparision value " << (floor((phi - epsilon)*m)) << endl;
 
-                		if (T1->ss->str[j] == "221.112.135.201 100.70.27.133")
+                		if (T1->ss->str[j] == "153.193.117.254 102.28.233.60")
                 		{
-	                		// cout << "The string is " << "221.112.135.201 100.70.27.133 " << "; " << T1->ss->sum[j] << endl;
-	                		// cout << "The Hashed string is " << to_string(Hash("221.112.135.201 100.70.27.133")) << endl;
+	                		 cout << "The string is " << "153.193.117.254 102.28.233.60 " << "; " << T1->ss->sum[j] << endl;
+	                		 cout << "The Hashed string is " << to_string(Hash("153.193.117.254 102.28.233.60")) << endl;
 	                		// cout << "T2 string is " << T2->ss->str[j] << endl;
 	                		// cout << "T2 string value is" << T2 -> ss->sum[j] << endl;
 
@@ -97,6 +100,7 @@ class doubleSS
                 }
             }
             sort(q,q+CNT,cmp);
+            return CNT;
 
 	}
 
