@@ -42,23 +42,21 @@ string Read()
 
 	}
 
-//    fin.read(a,13);
-//    a[13]='\0';
     string tmp=aa.substr(0,last);
- //   cout << "String is " << tmp << endl;
-    return tmp;
+
+    if (tmp.find(':') == std::string::npos)
+  		return tmp;
+
+    return "-1";
+
 }
 
 
-	BOBHash64 *bobhash=new BOBHash64(1003);
-    unsigned long long Hash(string ST)
-        {
-            return (bobhash->run(ST.c_str(),ST.size()));
-        }
 
 int cmp(node i,node j) {return i.y>j.y;}
 int main()
 {
+//	cout << "size of bobhash 1000 is " << sizeof(bobhash) << endl;
 	cout << "Enter the Memory Size" << endl;
     int MEM;
     cin >> MEM;
@@ -83,30 +81,87 @@ int main()
     cout << "floor 2 " << (floor((phi-epsilon)*m)) << endl;
 
     cout<<"preparing all algorithms"<<endl;
-    // preparing heavykeeper
+
+ //    // preparing heavykeeper
+ //    int hk_M;
+ //    for (hk_M=1; 32*hk_M*HK_d+432*(10)<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
+ //    heavykeeper *hk; hk=new heavykeeper(hk_M); hk->clear();
+
+ //    // preparing spacesaving
+ //    int ss_M;
+ //    for (ss_M=1; 432*ss_M<=MEM*1024*8; ss_M++);
+ //    spacesaving *ss; ss=new spacesaving(ss_M);
+
+
+ //    // preparing LossyCounting
+ //    int LC_M;
+ //    for (LC_M=1; 227*LC_M<=MEM*1024*8; LC_M++);
+ //    LossyCounting *LC; LC=new LossyCounting();
+
+ //    // preparing CSS
+ //    int css_M;
+ //    for (css_M=1; 179*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
+ //    CSS *css; css=new CSS(css_M); css->clear();
+
+	// // preparing double spacesaving
+	// int d_ss_M;
+ //    for (d_ss_M=1; 216*d_ss_M<=MEM*1024*8; d_ss_M++);
+ //    doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,epsilon,phi,delta, m);
+
+
+ //    // preparing heavykeeper
+ //    int hk_M;
+ //    for (hk_M=1; 32*hk_M*HK_d+451*(floor(1/phi))<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
+ //    heavykeeper *hk; hk=new heavykeeper(hk_M,(floor(1/phi))); hk->clear();
+
+
+ //    // preparing spacesaving
+ //    int ss_M;
+ //    for (ss_M=1; 451*ss_M<=MEM*1024*8; ss_M++);
+ //    spacesaving *ss; ss=new spacesaving(ss_M);
+
+
+ //    // preparing LossyCounting
+ //    int LC_M;
+ //    for (LC_M=1; 246*LC_M<=MEM*1024*8; LC_M++);
+ //    LossyCounting *LC; LC=new LossyCounting();
+
+ //    // preparing CSS
+ //    int css_M;
+ //    for (css_M=1; 198*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
+ //    CSS *css; css=new CSS(css_M); css->clear();
+
+	// // preparing double spacesaving
+	// int d_ss_M;
+ //    for (d_ss_M=1; (419 + floor(log2(floor(2 * (d_ss_M) * (d_ss_M) / delta))/8.0))*d_ss_M + 451*(floor(2/phi))<=MEM*1024*8; d_ss_M++);
+ //    doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,epsilon,phi,delta, m);
+
+
+	// preparing Heavy keeper
     int hk_M;
-    for (hk_M=1; 32*hk_M*HK_d+432*(10)<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
-    heavykeeper *hk; hk=new heavykeeper(hk_M); hk->clear();
+    for (hk_M=1; 32*hk_M*HK_d+584*(floor(1/phi))<=MEM*1024*8; hk_M++); if (hk_M%2==0) hk_M--;
+    heavykeeper *hk; hk=new heavykeeper(hk_M,(floor(1/phi))); hk->clear();
+
 
     // preparing spacesaving
     int ss_M;
-    for (ss_M=1; 432*ss_M<=MEM*1024*8; ss_M++);
+    for (ss_M=1; 584*ss_M<=MEM*1024*8; ss_M++);
     spacesaving *ss; ss=new spacesaving(ss_M);
 
 
     // preparing LossyCounting
     int LC_M;
-    for (LC_M=1; 227*LC_M<=MEM*1024*8; LC_M++);
+    for (LC_M=1; 379*LC_M<=MEM*1024*8; LC_M++);
     LossyCounting *LC; LC=new LossyCounting();
 
     // preparing CSS
     int css_M;
-    for (css_M=1; 179*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
+    for (css_M=1; 331*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
     CSS *css; css=new CSS(css_M); css->clear();
 
 	// preparing double spacesaving
 	int d_ss_M;
-    for (d_ss_M=1; 216*d_ss_M<=MEM*1024*8; d_ss_M++);
+    for (d_ss_M=1; (328 + floor(log2(floor(2 * (d_ss_M) * (d_ss_M) / delta))))*d_ss_M + 584*(floor(2/phi))<=MEM*1024*8; d_ss_M++);
     doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,epsilon,phi,delta, m);
 
 
@@ -114,7 +169,10 @@ int main()
     for (int i=1; i<=m; i++)
 	{
 		string s=Read();
-//	    if (i%(m/10)==0) {cout<<"Insert "<<i<<endl; cout << s << endl;}
+
+		if (s=="-1"){
+			continue;
+		}
 
 		B[s]++;
 		hk->Insert(s);
@@ -130,6 +188,7 @@ int main()
 	int LCV =	LC->work();
 	int cssV =	css->work();
 	int dssV =	d_ss -> work();
+
 
 
     cout<<"preparing true flow"<<endl;
@@ -230,9 +289,6 @@ int main()
     printf("doubleSS:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",d_ss_sum,K,(d_ss_sum/(K+0.0)),d_ss_ARE/(K + 0.0),d_ss_AAE/(K+0.0));    
 
 
-    cout << "153.193.117.254 102.28.233.60 " << to_string(Hash("153.193.117.254 102.28.233.60")) << endl;
-    cout << "0.0.0.0 0.0.0.0 " << to_string(Hash("0.0.0.0 0.0.0.0")) << endl;
-    cout << "255.255.255.255 255.255.255.255 " << to_string(Hash("255.255.255.255 255.255.255.255")) << endl;
 
     return 0;
 }
