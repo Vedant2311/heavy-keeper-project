@@ -72,10 +72,10 @@ int main()
 //    epsilon = 1.0/( 2 * 64);
 //    phi = 3 * 2.1 * epsilon;	
 
-    	epsilon = 0.000006;
-    	phi = 0.008;
+    	epsilon = 0.0000006;
+    	phi = 0.0008 * 5 ;
 
-    int m=100000;  // the number of flows
+    int m=7000000;  // the number of flows
 
     cout << "floor 1 " << (floor(phi*m)) << endl;
     cout << "floor 2 " << (floor((phi-epsilon)*m)) << endl;
@@ -233,8 +233,8 @@ int main()
         LC_string=(LC->Query(i)).first; LC_num=(LC->Query(i)).second;
 
         if (LC_num < floor((phi-epsilon)*m)) break;
-		cout << "LC string " << LC_string << " " << LC_num << endl;        
 
+		cout << "LC string " << LC_string << " " << LC_num << endl;        
         LC_AAE+=abs(B[LC_string]-LC_num); LC_ARE+=abs(B[LC_string]-LC_num)/(B[LC_string]+0.0);
         if (C[LC_string]) LC_sum++;
     }
@@ -249,7 +249,6 @@ int main()
         if (ss_num < floor((phi-epsilon)*m)) break;
 
 		cout << "SS string " << ss_string << " " << ss_num << endl;        
-
         ss_AAE+=abs(B[ss_string]-ss_num); ss_ARE+=abs(B[ss_string]-ss_num)/(B[ss_string]+0.0);
         if (C[ss_string]) ss_sum++;
     }
@@ -263,8 +262,8 @@ int main()
         css_string=(css->Query(i)).first; css_num=(css->Query(i)).second;
 
         if (css_num < floor((phi-epsilon)*m)) break;
-		cout << "CSS string " << css_string << " " << css_num << endl;        
 
+		cout << "CSS string " << css_string << " " << css_num << endl;        
         css_AAE+=abs(B[css_string]-css_num); css_ARE+=abs(B[css_string]-css_num)/(B[css_string]+0.0);
         if (C[css_string]) css_sum++;
     }
@@ -275,6 +274,7 @@ int main()
     for (int i=0; i<dssV; i++)
     {
         d_ss_string=(d_ss->Query(i)).first; d_ss_num=(d_ss->Query(i)).second;
+        
 		cout << "Double SS string " << d_ss_string << " " << d_ss_num << endl;        
         d_ss_AAE+=abs(B[d_ss_string]-d_ss_num); d_ss_ARE+=abs(B[d_ss_string]-d_ss_num)/(B[d_ss_string]+0.0);
         if (C[d_ss_string]) d_ss_sum++;
@@ -282,11 +282,11 @@ int main()
     cout << endl;
 
 
-    printf("heavkeeper:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",hk_sum,K,(hk_sum/(K+0.0)),hk_ARE/K,hk_AAE/(K+0.0));
-    printf("LossyCounting:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",LC_sum,K,(LC_sum/(K+0.0)),LC_ARE/K,LC_AAE/(K+0.0));
-    printf("spacesaving:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",ss_sum,K,(ss_sum/(K+0.0)),ss_ARE/K,ss_AAE/(K+0.0));
-    printf("CSS:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",css_sum,K,(css_sum/(K+0.0)),css_ARE/K,css_AAE/(K+0.0));
-    printf("doubleSS:\nAccepted: %d/%d  %.10f\nARE: %.10f\nAAE: %.10f\n\n",d_ss_sum,K,(d_ss_sum/(K+0.0)),d_ss_ARE/(K + 0.0),d_ss_AAE/(K+0.0));    
+    printf("heavkeeper:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",hk_sum,hk_ARE,hk_AAE);
+    printf("LossyCounting:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",LC_sum,LC_ARE,LC_AAE);
+    printf("spacesaving:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",ss_sum,ss_ARE,ss_AAE);
+    printf("CSS:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",css_sum,css_ARE,css_AAE);
+    printf("doubleSS:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",d_ss_sum,d_ss_ARE,d_ss_AAE);    
 
 
 
