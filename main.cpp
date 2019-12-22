@@ -56,24 +56,14 @@ string Read()
 int cmp(node i,node j) {return i.y>j.y;}
 int main()
 {
-//	cout << "size of bobhash 1000 is " << sizeof(bobhash) << endl;
 	cout << "Enter the Memory Size" << endl;
     int MEM;
     cin >> MEM;
-//    cout << "Enter Epsilon, Phi, Delta" << endl;
     float epsilon, phi, delta;
- //   cout << "Epsilon, Phi, Delta" << endl;
- //   cin >> epsilon >> phi >> delta;
-//    cin >> epsilon >> phi >> delta;
+
     delta = 0.2;
-
-    int temp;
-    for (temp=1; 432*temp<=MEM*1024*8; temp++);
-//    epsilon = 1.0/( 2 * 64);
-//    phi = 3 * 2.1 * epsilon;	
-
-    	epsilon = 0.0000006;
-    	phi = 0.0008 * 5 ;
+  	epsilon = 0.0000006;
+   	phi = 0.0008 * 5 ;
 
     int m=7000000;  // the number of flows
 
