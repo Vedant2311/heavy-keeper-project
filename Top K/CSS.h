@@ -108,13 +108,13 @@ class CSS
         int work()
         {
            int CNT=0;
-            for (int i=M2-1; i>=0; i--)
+            for (int i=M2-1; i>=M2-k; i--)
             {
                 int now=head[R[i]];
                 while (1) {if (ID_index[now].wz==i) {q[CNT].x=ID_index[now].ID;q[CNT].y=Counter_Array[i]; CNT++; break;} now=Next[now]; }
             }
-           sort(q,q+CNT,cmp);
-           return CNT;
+           sort(q,q+K,cmp);
+           return K;
         }
         pair<string ,int> Query(int k)
         {
