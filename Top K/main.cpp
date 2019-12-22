@@ -144,7 +144,7 @@ int main()
 
 	// preparing double spacesaving
 	int d_ss_M;
-    for (d_ss_M=1; (328 + floor(log2(floor(2 * (d_ss_M) * (d_ss_M) / delta))))*d_ss_M + 584*(2*K)<=MEM*1024*8; d_ss_M++);
+    for (d_ss_M=1; (328 + floor(log2(floor(2 * (d_ss_M) * (d_ss_M) / delta))))*d_ss_M + 584*(50*K)<=MEM*1024*8; d_ss_M++);
     doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,K,delta);
 
 
@@ -255,11 +255,11 @@ int main()
     cout << endl;
 
 
-    printf("heavkeeper:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",hk_sum,hk_ARE/(K+0.00),hk_AAE/(K+0.00));
-    printf("LossyCounting:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",LC_sum,LC_ARE/(K+0.00),LC_AAE/(K+0.00));
-    printf("spacesaving:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",ss_sum,ss_ARE/(K+0.00),ss_AAE/(K+0.00));
-    printf("CSS:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",css_sum,css_ARE/(K+0.00),css_AAE/(K+0.00));
-    printf("doubleSS:\nAccepted: %d  \nARE: %f\nAAE: %d\n\n",d_ss_sum,d_ss_ARE/(K+0.00),d_ss_AAE/(K+0.00));    
+    printf("heavkeeper:\nAccepted: %d  \nARE: %.10f\nAAE: %.10f\n\n",hk_sum,hk_ARE/(K+0.0),hk_AAE/(K+0.00));
+    printf("LossyCounting:\nAccepted: %d  \nARE: %.10f\nAAE: %.10f\n\n",LC_sum,LC_ARE/(K+0.0),LC_AAE/(K+0.00));
+    printf("spacesaving:\nAccepted: %d  \nARE: %.10f\nAAE: %.10f\n\n",ss_sum,ss_ARE/(K+0.0),ss_AAE/(K+0.00));
+    printf("CSS:\nAccepted: %d  \nARE: %.10f\nAAE: %.10f\n\n",css_sum,css_ARE/(K+0.0),css_AAE/(K+0.00));
+    printf("doubleSS:\nAccepted: %d  \nARE: %.10f\nAAE: %.10f\n\n",d_ss_sum,d_ss_ARE/(K+0.0),d_ss_AAE/(K+0.00));    
 
     return 0;
 }
