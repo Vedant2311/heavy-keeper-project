@@ -48,8 +48,8 @@ class doubleSS
 
 			T1 ->Insert(x);
 
-			int out = Hash(x);
-			int final = floor(maxVal * ((A*out) - (floor(A*out))));
+			unsigned int out = Hash(x);
+			unsigned int final = floor(maxVal * ((A*out) - (floor(A*out))));
 
 			T2 ->Insert(to_string(final));
 		}
