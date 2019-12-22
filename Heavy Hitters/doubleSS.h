@@ -12,7 +12,7 @@
 #include "spacesaving.h"
 
 double A = 0.61803398875;
-int maxVal;
+unsigned int maxVal;
 
 using namespace std;
 
@@ -63,8 +63,8 @@ class doubleSS
             for(int i=N;i;i=T1->ss->Left[i]){
                 for(int j=T1->ss->head[i];j;j=T1->ss->Next[j]) {
 
-       				int v = Hash(T1->ss->str[j]);
-					int final = floor(maxVal * ((A*v) - (floor(A*v))));
+       				unsigned int v = Hash(T1->ss->str[j]);
+					unsigned int final = floor(maxVal * ((A*v) - (floor(A*v))));
 
                 	if((T1->ss->sum[j] >= (floor(phi*m/2.0)))){
 
