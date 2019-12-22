@@ -8,8 +8,11 @@
 #include "BOBHASH32.h"
 #include "params.h"
 #include "ssummary.h"
-#include "BOBHASH64.h"
+#include "BOBHASH32.h"
 #include "spacesaving.h"
+
+double A = 0.61803398875;
+int maxVal;
 
 using namespace std;
 
@@ -19,7 +22,7 @@ class doubleSS
 	private:
 		spacesaving *T1;
 		spacesaving *T2;
-		BOBHash64 *bobhash;
+		BOBHash32 *bobhash;
 		int M2,m;
 		double phi, epsilon, delta;
 
@@ -27,11 +30,11 @@ class doubleSS
 
 		doubleSS(int M2, double epsilon, double phi, double delta, int m): M2(M2), phi(phi), epsilon(epsilon), delta(delta), m(m) {
 
-			cout << "The size of T1 is" << floor(2.0/phi) << endl;
+			cout << "The size of T1 is" << floor(2.00000/phi) << endl;
 			cout << "The size of T2 is" << M2 << endl;
 
-			T1= new spacesaving((int)floor(2.0/phi)); T2= new spacesaving(M2); bobhash=new BOBHash64(floor(log2(floor(2 * M2 * M2 / delta))/8.0));
-			cout << "The size of the Hash is " << floor(log2(floor(2 * M2 * M2 / delta))/8.0);
+			maxVal = log2(floor((2.0 * M2 * M2 / delta)));			
+			T1= new spacesaving((int)floor(2.0/phi)); T2= new spacesaving(M2); bobhash=new BOBHash32(1003);
 
 		}
 
@@ -44,12 +47,11 @@ class doubleSS
 		{
 
 			T1 ->Insert(x);
-//			cout << "Original String is " << x << endl;
-//			cout << "Hashed value is " << Hash(x) << endl;
-//			cout << "Hashed String is " << to_string(Hash(x)) << endl;
 
-//			cout << endl;
-			T2 ->Insert(to_string(Hash(x)));
+			int out = Hash(x);
+			int final = floor(maxVal * ((A*out) - (floor(A*out))));
+
+			T2 ->Insert(to_string(final));
 		}
 
 		struct Node {string x; int y;} q[MAX_MEM+10];
@@ -61,20 +63,12 @@ class doubleSS
             for(int i=N;i;i=T1->ss->Left[i]){
                 for(int j=T1->ss->head[i];j;j=T1->ss->Next[j]) {
 
+       				int v = Hash(T1->ss->str[j]);
+					int final = floor(maxVal * ((A*v) - (floor(A*v))));
 
                 	if((T1->ss->sum[j] >= (floor(phi*m/2.0)))){
-//                		cout << "Pass" << endl;
-			//			cout << "Combo " << j << " " << T2->ss->sum[j] << endl;              
-				//		cout << "Comparision value " << (floor((phi - epsilon)*m)) << endl;
 
-                		if (T1->ss->str[j] == "153.193.117.254 102.28.233.60")
-                		{
-	                		 cout << "The string is " << "153.193.117.254 102.28.233.60 " << "; " << T1->ss->sum[j] << endl;
-	                		 cout << "The Hashed string is " << to_string(Hash("153.193.117.254 102.28.233.60")) << endl;
-	                		// cout << "T2 string is " << T2->ss->str[j] << endl;
-	                		// cout << "T2 string value is" << T2 -> ss->sum[j] << endl;
-
-                		}
+                		cout << "T1 string is " << T1->ss->sum[j] << endl;
 
                 		int flag = 0;
                 		for(int i1=N; i1; i1 = T2 -> ss -> Left[i1]){
@@ -82,7 +76,8 @@ class doubleSS
                 			if(flag==1) break;
 
                 			for(int j1 = T2 -> ss -> head[i1]; j1; j1 = T2 -> ss -> Next[j1]){
-                				if (T2 -> ss -> str[j1] == to_string(Hash(T1->ss->str[j]))){
+
+                				if (T2 -> ss -> str[j1] == to_string(final)){
                 					flag=1;
 
 			                		if(T2->ss->sum[j1] >= (floor((phi - epsilon)*m))){
