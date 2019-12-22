@@ -140,7 +140,7 @@ int main()
     // preparing CSS
     int css_M;
     for (css_M=1; 331*css_M+4*css_M*log(css_M)/log(2)<=MEM*1024*8; css_M++);
-    CSS *css; css=new CSS(css_M); css->clear();
+    CSS *css; css=new CSS(css_M,K); css->clear();
 
 	// preparing double spacesaving
 	int d_ss_M;
