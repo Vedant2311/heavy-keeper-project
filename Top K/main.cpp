@@ -144,7 +144,7 @@ int main()
 
 	// preparing double spacesaving
 	int d_ss_M;
-    for (d_ss_M=1; (328 + floor(log2(floor(2 * (d_ss_M) * (d_ss_M) / delta))))*d_ss_M + 584*(50*K)<=MEM*1024*8; d_ss_M++);
+    for (d_ss_M=1; (328 + floor(log2(floor(2 * (d_ss_M) * (d_ss_M) / delta))))*d_ss_M + 584*((d_ss_M/30) * K)<=MEM*1024*8; d_ss_M++);
     doubleSS *d_ss; d_ss=new doubleSS(d_ss_M,K,delta);
 
 
