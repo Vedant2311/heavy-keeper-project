@@ -33,7 +33,7 @@ class doubleSS
 			cout << "The size of T1 is" << floor(2.00000/phi) << endl;
 			cout << "The size of T2 is" << M2 << endl;
 
-			maxVal = log2(floor((2.0 * M2 * M2 / delta)));			
+			maxVal = (floor((2.0 * M2 * M2 / delta)));			
 			T1= new spacesaving((int)floor(2.0/phi)); T2= new spacesaving(M2); bobhash=new BOBHash32(1003);
 
 		}
