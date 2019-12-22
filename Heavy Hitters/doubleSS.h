@@ -38,7 +38,7 @@ class doubleSS
 
 		}
 
-		unsigned long long Hash(string ST)
+		unsigned int Hash(string ST)
         {
             return (bobhash->run(ST.c_str(),ST.size()));
         }
