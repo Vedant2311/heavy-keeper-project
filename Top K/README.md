@@ -1,1 +1,1 @@
-This folder contains the implementation of the Top K elephant flows, the original problem for which the Heavy Keeper algorithm was developed
+This folder contains the implementation of the Top K elephant flows, the original problem for which the Heavy Keeper algorithm was developed. The paths of the datasets for the Network trace and Movie ratings are hardcoded in main.cpp, make sure to modify such path correspondingly and to modify the corresponding Read() functions for the dataset you are using.
