@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <vector>
 #include <cstring>
 #include <map>
 #include <fstream>
@@ -19,7 +20,10 @@ using namespace std;
 map <string ,int> B,C;
 struct node {string x;int y;} p[10000005];
 ifstream fin("Data/data10.csv",ios::in|ios::binary);
+ifstream fin_movie("MovieTweetings-master/latest/ratings.dat",ios::in|ios::binary);
 char a[105];
+
+// Input reading function for the network packets
 string Read()
 {
 	string aa;
@@ -51,16 +55,53 @@ string Read()
 
 }
 
+void tokenize(std::string const &str, const char* delim,
+			std::vector<std::string> &out)
+{
+	char *token = strtok(const_cast<char*>(str.c_str()), delim);
+	while (token != nullptr)
+	{
+		out.push_back(std::string(token));
+		token = strtok(nullptr, delim);
+	}
+}
+
+// Input reading function for the movie ratings. Note that the ratings would actually go from 0-10, rather than a 0-1 score for the network packets
+string Read_movie()
+{
+	string aa;
+	std::getline (fin_movie,aa);
+	int l,last,count;
+	l = aa.length();
+
+	const char* delim = "::";
+	std::vector<std::string> out;
+	tokenize(aa, delim, out);
+
+	string temp;
+	string uid = out[0];
+	return uid; 
+}
 
 
 int cmp(node i,node j) {return i.y>j.y;}
 int main()
 {
-	cout << "Enter the Memory Size and K" << endl;
-    int MEM,K;
-    cin >> MEM >> K;
+	cout << "Enter the Memory Size and K and data" << endl;
 
-    int m=7000000;  // the number of flows
+/*
+	Data will be:
+		0 -> Network
+		1 -> Movies
+*/ 
+    int MEM,K,datatype;
+    cin >> MEM >> K >> datatype;
+
+    int m =0;
+    if (datatype==0)
+		m=7000000; 
+	else
+	    m=800000; 
     float delta = 0.2;
 
     cout<<"preparing all algorithms"<<endl;
@@ -151,7 +192,11 @@ int main()
     // Inserting
     for (int i=1; i<=m; i++)
 	{
-		string s=Read();
+		string s;
+		if (datatype==0)
+			s=Read();
+		else
+			s = Read_movie();
 
 		if (s=="-1"){
 			continue;
@@ -163,7 +208,6 @@ int main()
 		LC->Insert(s,i/LC_M); if (i%LC_M==0) LC->clear(i/LC_M);
 		css->Insert(s);
 		d_ss -> Insert(s);
-
 	}
 
 	int hkV =	hk->work();
@@ -173,7 +217,7 @@ int main()
 	int dssV =	d_ss -> work();
 
 
-
+	cout << endl;
     cout<<"preparing true flow"<<endl;
 	// preparing true flow
 	int cnt=0;
@@ -190,7 +234,7 @@ int main()
         cout << "True String " << p[i].x << " " << p[i].y <<  endl;
     }
 
-
+    cout << endl;
     // Calculating PRE, ARE, AAE
     cout<<"Calculating"<<endl;
     int hk_sum=0,hk_AAE=0; double hk_ARE=0;
